@@ -12,11 +12,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      - name: Set up Git
-        uses: actions/setup-git@v2
-        with:
-          git_user_name: github-actions[bot]
-          git_user_email: github-actions[bot]@users.noreply.github.com
+      - name: Set up Git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
       - name: Install dependencies
         run: |
