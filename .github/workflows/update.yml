@@ -49,7 +49,6 @@ jobs:
         run: |
           if [[ -z "${COPR_WEBHOOK_URL:-}" ]]; then
             echo "COPR_WEBHOOK_URL not set; skipping."
-            exit 0
+            exit 1
           fi
-          curl -fsSL -X POST -H 'Content-Type: application/json' -d '{}' "$COPR_WEBHOOK_URL" && echo "Triggered COPR build."
-          echo "Triggered COPR build."
+          exit 0
