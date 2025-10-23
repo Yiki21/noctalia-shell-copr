@@ -1,0 +1,26 @@
+{
+  "ErrorNoInternet/rpm-packages|.copr/Makefile": {
+    "sha": "7cf6d7feb58a59e408279278afad5ed35227e7ac",
+    "date": "2025-10-23T01:17:48Z"
+  },
+  "ErrorNoInternet/rpm-packages|cliphist/bundle_go_deps_for_rpm.sh": {
+    "sha": "7cf6d7feb58a59e408279278afad5ed35227e7ac",
+    "date": "2025-10-23T01:17:48Z"
+  },
+  "ErrorNoInternet/rpm-packages|cliphist/cliphist.spec": {
+    "sha": "7cf6d7feb58a59e408279278afad5ed35227e7ac",
+    "date": "2025-10-23T01:17:48Z"
+  },
+  "ErrorNoInternet/rpm-packages|quickshell/quickshell.spec": {
+    "sha": "7cf6d7feb58a59e408279278afad5ed35227e7ac",
+    "date": "2025-10-23T01:17:48Z"
+  },
+  "BrycensRanch/gpu-screen-recorder-git-copr|gpu-screen-recorder.spec": {
+    "sha": "9cee9035fd1de091f6e0965edf4666367521a087",
+    "date": "2025-10-22T00:05:31Z"
+  },
+  "solopasha/hyprlandRPM|matugen/matugen.spec": {
+    "sha": "aa985340a236307b8414184b273d31cc9a0e447f",
+    "date": "2025-10-22T13:22:26Z"
+  }
+}
