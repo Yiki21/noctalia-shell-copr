@@ -1,18 +1,54 @@
-name: Trigger COPR build
+name: Update spec and trigger COPR
 
 on:
   schedule:
-    # Every 6 hours
-    - cron: '0 */6 * * *'
+    - cron: '0 */12 * * *' # every 12 hours
   workflow_dispatch:
 
-permissions: {}
+permissions:
+  contents: write
 
 jobs:
-  trigger:
+  update:
     runs-on: ubuntu-latest
     steps:
-      - name: Workflow placeholder
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Configure Git user
         run: |
-          echo "This workflow is scheduled to run every 6 hours or on manual dispatch."
-          echo "To auto-trigger COPR builds on schedule, add a step that POSTs your COPR custom webhook URL using a repository secret."
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Run update.sh
+        id: update
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NO_GIT: "0"
+          PUSH: "1"
+        run: |
+          bash ./update.sh
+
+      - name: Show result
+        run: |
+          echo "changed=${{ steps.update.outputs.changed }}"
+          echo "spec_changed=${{ steps.update.outputs.spec_changed }}"
+          echo "deps_changed=${{ steps.update.outputs.deps_changed }}"
+
+      - name: Trigger COPR build via custom webhook (optional)
+        if: steps.update.outputs.changed == '1'
+        env:
+          COPR_WEBHOOK_URL: ${{ secrets.COPR_WEBHOOK_URL }}
+        run: |
+          if [[ -z "${COPR_WEBHOOK_URL:-}" ]]; then
+            echo "COPR_WEBHOOK_URL not set; skipping."
+            exit 0
+          fi
+          curl -fsSL -X POST -H 'Content-Type: application/json' -d '{}' "$COPR_WEBHOOK_URL" && echo "Triggered COPR build."
