@@ -1,28 +1,18 @@
-name: Update noctalia-shell version
+name: Trigger COPR build
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    # Every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions: {}
 
 jobs:
-  update:
+  trigger:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Set up Git user
+      - name: Workflow placeholder
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-      - name: Install dependencies
-        run: |
-          sudo apt update
-          sudo apt install -y curl jq git perl
-
-      - name: Run update.sh to bump version and trigger Copr build
-        run: |
-          chmod +x update.sh
-          ./update.sh
+          echo "This workflow is scheduled to run every 6 hours or on manual dispatch."
+          echo "To auto-trigger COPR builds on schedule, add a step that POSTs your COPR custom webhook URL using a repository secret."
