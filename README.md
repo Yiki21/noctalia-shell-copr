@@ -1,28 +1,46 @@
 # noctalia-shell COPR automation
 
-This repo maintains the COPR spec for `noctalia-shell`. The spec now fetches the upstream latest release asset directly, so you don't need a commit-bump script.
+This repository maintains COPR specs for `noctalia-shell` and its dependencies including `quickshell`, `matugen`, and `cliphist`.
 
-## What’s automated
-- Spec uses `Source0: .../releases/latest/download/noctalia-latest.tar.gz` so builds always use the latest upstream release.
-- A scheduled GitHub Action can trigger COPR to build via a custom webhook (recommended), or you can trigger builds manually in COPR.
+## What's automated
+- Each package directory contains an `update.sh` script that:
+  - Checks GitHub for the latest release version
+  - Updates the version in the spec file
+  - Commits changes if a new version is detected
+- A scheduled GitHub Action runs every 12 hours to:
+  - Execute all `update.sh` scripts
+  - Push changes to the repository
+  - Trigger COPR builds via webhook
 
 ## GitHub Action schedule
-The workflow `.github/workflows/update.yml` runs every 6 hours and on manual dispatch.
+The workflow `.github/workflows/update.yml` runs every 12 hours and on manual dispatch.
 
 To have it trigger COPR automatically on schedule, add a repository secret `COPR_WEBHOOK_URL` set to your COPR custom webhook URL and add a curl step in the workflow to POST `{}` to it. If you prefer, you can also configure a GitHub→COPR repository webhook and trigger builds by pushing changes.
 
-## Configure COPR triggering options
-You have two options:
+## Package tracking
 
-1) Scheduled Action → COPR custom webhook (recommended)
-   - In COPR, create a custom webhook for your project and copy the URL.
-   - In GitHub, add a repository secret `COPR_WEBHOOK_URL` with that URL.
-   - In `.github/workflows/update.yml`, add a step to POST `{}` to `$COPR_WEBHOOK_URL`.
+Each package has its own update script:
+- `quickshell/update.sh` - Tracks [quickshell-mirror/quickshell](https://github.com/quickshell-mirror/quickshell)
+- `matugen/update.sh` - Tracks [InioX/matugen](https://github.com/InioX/matugen)
+- `cliphist/update.sh` - Tracks [sentriz/cliphist](https://github.com/sentriz/cliphist)
+- `noctalia-shell/update.sh` - Tracks [noctalia-dev/noctalia-shell](https://github.com/noctalia-dev/noctalia-shell)
 
-2) GitHub repository → COPR repository webhook (push events)
-   - In COPR, set up a GitHub repository webhook.
-   - In GitHub, add the webhook under Settings → Webhooks (payload URL from COPR, content type `application/json`).
-   - Trigger builds by pushing to this repo (manual or with your own automation).
+## Setup
+
+### Configure COPR webhook
+To enable automatic COPR builds:
+
+1. In COPR, create a custom webhook for your project and copy the URL
+2. In GitHub, add a repository secret `COPR_WEBHOOK_URL` with that URL
+3. The workflow will automatically trigger builds when versions are updated
+
+### Manual testing
+You can test update scripts locally:
+
+```bash
+cd quickshell
+bash update.sh
+```
 
 ## User setup after install
 This package installs the config under `/usr/share/quickshell/noctalia-shell`.
