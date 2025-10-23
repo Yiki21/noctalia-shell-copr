@@ -1,11 +1,11 @@
 Name: noctalia-shell
-Version: 2.18.0
+Version:        2.19.0
 Release:        %autorelease
 Summary: A Quickshell-based custom shell setup
 
 License: MIT
 URL: https://github.com/noctalia-dev/noctalia-shell
-Source0: %{name}.tar.gz
+Source0:        noctalia-shell-2.19.0.tar.gz
 
 BuildRequires:
 Requires:       quickshell
