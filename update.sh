@@ -26,6 +26,6 @@ sed -i "s/^Version:.*/Version:        ${VERSION}^${NEW_BUMPVER}.git${SHORT_COMMI
 
 git add "$SPEC"
 git commit -m "Update to version ${VERSION}+${SHORT_COMMIT}"
-git push
+git push https://github-actions:${{ secrets.GITHUB_TOKEN }}@github.com/Yiki21/noctalia-shell-copr.git
 
 echo "✅ Spec updated to commit $NEW_COMMIT, version ${VERSION}^${NEW_BUMPVER}.git${SHORT_COMMIT}"
