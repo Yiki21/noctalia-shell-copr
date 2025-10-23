@@ -125,11 +125,10 @@ cat <<'EOM'
 noctalia-shell installed.
 
 To set up for your user:
-	$ noctalia-shell          # symlink system config into ~/.config (recommended)
-	# or
-	$ noctalia-shell --copy   # copy files into ~/.config (manual updates later)
-
+Run: noctalia-shell         (symlink system config into ~/.config - recommended)
+Or:  noctalia-shell --copy  (copy files into ~/.config - manual updates later)
 Tip: use --force to replace an existing config.
+
 EOM
 
 %files
