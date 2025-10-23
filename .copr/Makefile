@@ -11,3 +11,9 @@ goprep:
 	bash bundle_go_deps_for_rpm.sh $(specfile)
 
 cliphist.spec: goprep
+
+srpm: prepare $(specfile)
+	spectool -g ./$(specfile)
+	rpmbuild -bs --define "_sourcedir ${PWD}" --define "_specdir ${PWD}" \
+		--define "_builddir ${PWD}" --define "_srcrpmdir $(outdir)" --define \
+		"_rpmdir ${PWD}" --define "_buildrootdir ${PWD}/.build" $(specfile)
