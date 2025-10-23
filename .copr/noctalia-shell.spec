@@ -1,9 +1,3 @@
-# -*- mode: spec; -*-
-# SPDX-License-Identifier: MIT
-
-# --------------------------
-# Macros for dynamic commit/version
-# --------------------------
 %global commit0 76d3fda44d7b4862894860071a136ecb2f14351f
 %global shortcommit0 %(c=%{commit0}; echo ${c:0:7})
 %global bumpver 1
