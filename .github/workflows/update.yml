@@ -52,3 +52,4 @@ jobs:
             exit 0
           fi
           curl -fsSL -X POST -H 'Content-Type: application/json' -d '{}' "$COPR_WEBHOOK_URL" && echo "Triggered COPR build."
+          echo "Triggered COPR build."

@@ -109,7 +109,10 @@ bump_spec_version() {
   fi
 
   echo "[version] Bumping Version: $current_ver -> $latest_ver"
-  perl -0777 -pe "s/(^Version:\s*)\Q$current_ver\E\s*$/\$1$latest_ver\n/m" -i "$SPEC_PATH"
+  # Robust in-place replace using sed (avoid shell/perl interpolation pitfalls)
+  # Escape regex metacharacters in current version so we match it literally
+  esc_current=$(printf '%s' "$current_ver" | sed -e 's/[.[\*^$+?(){}|]/\\&/g')
+  sed -E -i "s/^(Version:[[:space:]]*)${esc_current}[[:space:]]*$/\\1${latest_ver}/" "$SPEC_PATH"
   BUMP_CHANGED=1
 }
 
