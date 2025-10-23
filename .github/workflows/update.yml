@@ -1,32 +1,29 @@
-name: Update and Trigger Copr Build
+name: Update noctalia-shell version
 
 on:
-  workflow_dispatch:
-  schedule:
-    - cron: "45 */6 * * *"
+  push:
+    branches:
+      - main
 
 jobs:
-  main:
+  update:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    container:
-      image: "registry.fedoraproject.org/fedora-minimal:latest"
-
     steps:
-      - name: Prepare
-        run: |
-          dnf -y install --nodocs --setopt=install_weak_deps=0 \
-            git-core rpm-build curl jq rpmdevtools copr-cli wget
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      - uses: actions/checkout@v4
+      - name: Set up Git
+        uses: actions/setup-git@v2
+        with:
+          git_user_name: github-actions[bot]
+          git_user_email: github-actions[bot]@users.noreply.github.com
 
-      - name: Run updater
-        env:
-          COPR_WEBHOOK: ${{ secrets.COPR_WEBHOOK }}
+      - name: Install dependencies
         run: |
-          git config --global --add safe.directory "$GITHUB_WORKSPACE"
-          git config --local user.name "github-actions[bot]"
-          git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          sudo apt update
+          sudo apt install -y curl jq git perl
+
+      - name: Run update.sh to bump version and trigger Copr build
+        run: |
           chmod +x update.sh
           ./update.sh

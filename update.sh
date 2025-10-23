@@ -1,35 +1,31 @@
 #!/usr/bin/env bash
-set -euo pipefail
+set -euxo pipefail
 
-REPO="noctalia-dev/noctalia-shell"
 SPEC=".copr/noctalia-shell.spec"
-WORKDIR="$(dirname "$(realpath "$0")")"
+REPO="noctalia-dev/noctalia-shell"
 
-cd "$WORKDIR"
+NEW_COMMIT=$(curl -s -H "Accept: application/vnd.github+json" \
+    "https://api.github.com/repos/$REPO/commits/main" | jq -r .sha)
 
-VERSION=$(curl -s "https://api.github.com/repos/${REPO}/releases/latest" \
-    | jq -r .tag_name | sed 's/^v//')
+OLD_COMMIT=$(grep '%global commit0' "$SPEC" | awk '{print $3}')
 
-if [[ -z "$VERSION" || "$VERSION" == "null" ]]; then
-    echo "❌ Can Not Fetch Latest Version"
-    exit 1
-fi
-
-echo "📦 Latest Version: $VERSION"
-
-if grep -q "Version:[[:space:]]*${VERSION}" "$SPEC"; then
-    echo "✅ On Latest Version $VERSION"
+if [[ "$NEW_COMMIT" == "$OLD_COMMIT" ]]; then
+    echo "✅ Already up to date: $NEW_COMMIT"
     exit 0
 fi
 
-TARBALL="noctalia-shell-${VERSION}.tar.gz"
-wget -q "https://github.com/${REPO}/archive/refs/tags/v${VERSION}.tar.gz" -O "$TARBALL"
+sed -i "s/^%global commit0.*/%global commit0 $NEW_COMMIT/" "$SPEC"
 
-sed -i "s/^Version:.*/Version:        ${VERSION}/" "$SPEC"
-sed -i "s|^Source0:.*|Source0:        ${TARBALL}|" "$SPEC"
+SHORT_COMMIT=$(echo "$NEW_COMMIT" | cut -c1-7)
+BUMPVER=$(grep '%global bumpver' "$SPEC" | awk '{print $3}')
+NEW_BUMPVER=$((BUMPVER + 1))
+sed -i "s/^%global bumpver.*/%global bumpver $NEW_BUMPVER/" "$SPEC"
 
-git add "$SPEC" "$TARBALL"
-git commit -m "Update to version ${VERSION}" || true
+VERSION=$(curl -s "https://api.github.com/repos/$REPO/releases/latest" | jq -r .tag_name | sed 's/^v//')
+sed -i "s/^Version:.*/Version:        ${VERSION}^${NEW_BUMPVER}.git${SHORT_COMMIT}/" "$SPEC"
+
+git add "$SPEC"
+git commit -m "Update to version ${VERSION}+${SHORT_COMMIT}"
 git push
 
-echo "✅ Updated to Version $VERSION"
+echo "✅ Spec updated to commit $NEW_COMMIT, version ${VERSION}^${NEW_BUMPVER}.git${SHORT_COMMIT}"
