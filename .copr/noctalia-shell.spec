@@ -7,7 +7,6 @@ License: MIT
 URL: https://github.com/noctalia-dev/noctalia-shell
 Source0:        noctalia-shell-2.19.0.tar.gz
 
-BuildRequires:
 Requires:       quickshell
 Requires:       google-roboto-fonts
 Requires:       rsms-inter-fonts
