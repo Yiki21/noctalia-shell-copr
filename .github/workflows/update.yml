@@ -22,7 +22,7 @@ jobs:
         run: |
           sudo apt-get update -y
           sudo apt-get install -y \
-            git curl jq parallel rpm rpm2cpio cpio perl
+            git curl jq parallel rpm rpm2cpio cpio perl golang-go
 
       - name: Configure Git user
         run: |

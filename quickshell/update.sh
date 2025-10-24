@@ -39,4 +39,4 @@ echo "Updated ${SPEC_FILE} to version ${LATEST_VERSION}"
 # Commit changes
 git add "${SPEC_FILE}"
 git commit -m "quickshell: update to ${LATEST_VERSION}" || true
-git tag quickshell-v${LATEST_VERSION}
+git tag -f "quickshell-v${LATEST_VERSION}"

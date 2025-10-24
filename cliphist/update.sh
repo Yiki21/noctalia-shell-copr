@@ -33,7 +33,21 @@ sed -i "s/^Version:\s*.*/Version:                ${LATEST_VERSION}/" "${SPEC_FIL
 
 echo "Updated ${SPEC_FILE} to version ${LATEST_VERSION}"
 
-# Commit changes
-git add "${SPEC_FILE}"
-git commit -m "cliphist: update to ${LATEST_VERSION}" || true
-git tag chiphist-v${LATEST_VERSION}
+# Generate vendor tarball
+# The bundle_go_deps_for_rpm.sh script will automatically read the version from the spec file
+echo "Generating vendor tarball..."
+./bundle_go_deps_for_rpm.sh "${SPEC_FILE}"
+
+if [ -f "vendor-${LATEST_VERSION}.tar.gz" ]; then
+    echo "Successfully generated vendor-${LATEST_VERSION}.tar.gz"
+    # Commit changes including the vendor tarball
+    git add "${SPEC_FILE}" "vendor-${LATEST_VERSION}.tar.gz"
+    git commit -m "cliphist: update to ${LATEST_VERSION}" || true
+    git tag -f "cliphist-v${LATEST_VERSION}"
+else
+    echo "Warning: vendor tarball not found"
+    # Commit spec file only
+    git add "${SPEC_FILE}"
+    git commit -m "cliphist: update to ${LATEST_VERSION}" || true
+    git tag -f "cliphist-v${LATEST_VERSION}"
+fi
