@@ -30,6 +30,8 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
       - name: Run update scripts
+        env: 
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           find . -name "update.sh" -type f -print0 | while IFS= read -r -d '' script; do
             echo "Running ${script}..."
@@ -38,16 +40,16 @@ jobs:
             cd - > /dev/null
           done
 
-      - name: Check for changes
-        id: check_changes
-        run: |
-          if git diff --quiet && git diff --cached --quiet; then
-            echo "changed=false" >> $GITHUB_OUTPUT
-            echo "No changes detected"
-          else
-            echo "changed=true" >> $GITHUB_OUTPUT
-            echo "Changes detected"
-          fi
+      # - name: Check for changes
+      #   id: check_changes
+      #   run: |
+      #     if git diff --quiet && git diff --cached --quiet; then
+      #       echo "changed=false" >> $GITHUB_OUTPUT
+      #       echo "No changes detected"
+      #     else
+      #       echo "changed=true" >> $GITHUB_OUTPUT
+      #       echo "Changes detected"
+      #     fi
 
       # - name: Commit and push changes
       #   if: steps.check_changes.outputs.changed == 'true'

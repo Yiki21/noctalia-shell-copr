@@ -4,8 +4,13 @@ set -euo pipefail
 SPEC_FILE="cliphist.spec"
 REPO="sentriz/cliphist"
 
+AUTH_HEADER=""
+if [[ -n "${GITHUB_TOKEN:-}" ]]; then
+    AUTH_HEADER="-H Authorization: token ${GITHUB_TOKEN}"
+fi
+
 # Get the latest version from GitHub releases
-LATEST_VERSION=$(curl -s "https://api.github.com/repos/${REPO}/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
+LATEST_VERSION=$(curl -sfL ${AUTH_HEADER:+$AUTH_HEADER} "https://api.github.com/repos/${REPO}/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
 
 if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" = "null" ]; then
     echo "Failed to fetch latest version for ${REPO}"
