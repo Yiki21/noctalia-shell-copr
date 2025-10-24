@@ -31,3 +31,4 @@ echo "Updated ${SPEC_FILE} to version ${LATEST_VERSION}"
 # Commit changes
 git add "${SPEC_FILE}"
 git commit -m "noctalia-shell: update to ${LATEST_VERSION}" || true
+git tag noctalia-shell-v${LATEST_VERSION}
