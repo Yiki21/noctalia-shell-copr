@@ -17,7 +17,7 @@ if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" = "null" ]; then
 fi
 
 # Get current version from spec file
-CURRENT_VERSION=$(rpmspec -q --qf "%{version}\n" "${SPEC_FILE}" 2>/dev/null | head -n1)
+CURRENT_VERSION=$(grep "^Version:" "${SPEC_FILE}" | awk '{print $NF}' | head -n1)
 
 echo "Current version: ${CURRENT_VERSION}"
 echo "Latest version: ${LATEST_VERSION}"
