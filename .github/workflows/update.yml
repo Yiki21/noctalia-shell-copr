@@ -13,17 +13,17 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
-    container:
-      image: 'registry.fedoraproject.org/fedora-minimal:latest'
 
     steps:
-      - name: Prepare
-        run: |
-          dnf -y install --nodocs --setopt=install_weak_deps=0 \
-            git-core rpm-build curl perl-interpreter jq rpmdevtools copr-cli parallel curl
-
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Install dependencies (using dnf)
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y dnf
+          sudo dnf -y install --nodocs --setopt=install_weak_deps=0 \
+            git-core rpm-build curl perl-interpreter jq rpmdevtools copr-cli parallel
 
       - name: Configure Git user
         run: |
@@ -50,7 +50,9 @@ jobs:
             echo "Changes detected"
           fi
 
-      - name: Push changes
-        if: steps.check_changes.outputs.changed == 'true'
-        run: |
-          git push
+      # - name: Commit and push changes
+      #   if: steps.check_changes.outputs.changed == 'true'
+      #   run: |
+      #     git add -A
+      #     git commit -m "Automated spec update [skip ci]" || true
+      #     git push
