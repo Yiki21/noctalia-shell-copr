@@ -4,13 +4,12 @@ set -euo pipefail
 SPEC_FILE="quickshell.spec"
 REPO="quickshell-mirror/quickshell"
 
-AUTH_HEADER=""
-if [[ -n "${GITHUB_TOKEN:-}" ]]; then
-    AUTH_HEADER="-H Authorization: token ${GITHUB_TOKEN}"
-fi
-
 # Get the latest version from GitHub releases
-LATEST_VERSION=$(curl -sfL ${AUTH_HEADER:+$AUTH_HEADER} "https://api.github.com/repos/${REPO}/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
+if [[ -n "${GITHUB_TOKEN:-}" ]]; then
+    LATEST_VERSION=$(curl -sfL -H "Authorization: token ${GITHUB_TOKEN}" "https://api.github.com/repos/${REPO}/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
+else
+    LATEST_VERSION=$(curl -sfL "https://api.github.com/repos/${REPO}/releases/latest" | jq -r '.tag_name' | sed 's/^v//')
+fi
 
 if [ -z "$LATEST_VERSION" ] || [ "$LATEST_VERSION" = "null" ]; then
     echo "Failed to fetch latest version for ${REPO}"
