@@ -36,8 +36,7 @@ jobs:
           find . -name "update.sh" -type f -print0 | while IFS= read -r -d '' script; do
             echo "Running ${script}..."
             cd "$(dirname "$script")"
-            echo "Running update script in $(pwd)"
-            bash -x "$(basename "$script")" || echo "Warning: ${script} failed"
+            bash "$(basename "$script")" || echo "Warning: ${script} failed"
             cd - > /dev/null
           done
 
