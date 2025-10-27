@@ -43,12 +43,10 @@ if [ -f "vendor-${LATEST_VERSION}.tar.gz" ]; then
     git add "${SPEC_FILE}" "vendor-${LATEST_VERSION}.tar.gz"
     git commit -m "cliphist: update to ${LATEST_VERSION}" || true
     git tag -f "cliphist-v${LATEST_VERSION}"
-    git push origin HEAD --tags
 else
     echo "Warning: vendor tarball not found"
     # Commit spec file only
     git add "${SPEC_FILE}"
     git commit -m "cliphist: update to ${LATEST_VERSION}" || true
     git tag -f "cliphist-v${LATEST_VERSION}"
-    git push origin HEAD --tags
 fi
