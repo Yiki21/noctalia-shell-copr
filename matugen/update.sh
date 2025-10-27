@@ -36,3 +36,4 @@ echo "Updated ${SPEC_FILE} to version ${LATEST_VERSION}"
 git add "${SPEC_FILE}"
 git commit -m "matugen: update to ${LATEST_VERSION}" || true
 git tag -f "matugen-v${LATEST_VERSION}"
+git push origin HEAD --tags
