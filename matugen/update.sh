@@ -27,12 +27,42 @@ if [ "$CURRENT_VERSION" = "$LATEST_VERSION" ]; then
     exit 0
 fi
 
+###############################################
+# 1. Make vendor tarball
+###############################################
+
+TMPDIR=$(mktemp -d)
+cd "$TMPDIR"
+curl -sL "https://github.com/${REPO}/archive/refs/tags/v${LATEST_VERSION}.tar.gz" \
+    -o source.tar.gz
+
+tar -xf source.tar.gz
+SRCDIR="matugen-${LATEST_VERSION}"
+cd "$SRCDIR"
+
+cargo vendor --locked
+
+TARBALL="matugen-${LATEST_VERSION}-vendor.tar.gz"
+tar -czf "$TARBALL" vendor
+
+mv "$TARBALL" "$OLDPWD"
+cd "$OLDPWD"
+
+###############################################
+# 2. Update spec Version
+###############################################
+
 # Update version in spec file
 sed -i "s/^Version:\s*.*/Version:        ${LATEST_VERSION}/" "${SPEC_FILE}"
 
 echo "Updated ${SPEC_FILE} to version ${LATEST_VERSION}"
+echo "Generated vendor tarball: ${VENDOR_TARBALL}"
 
-# Commit changes
+###############################################
+# 3. Commit changes and tag
+###############################################
+
 git add "${SPEC_FILE}"
+git add "$VENDOR_TARBALL"
 git commit -m "matugen: update to ${LATEST_VERSION}" || true
 git tag -f "matugen-v${LATEST_VERSION}"

@@ -10,7 +10,6 @@
 #   COPR: https://copr.fedorainfracloud.org/coprs/zhangyi6324/noctalia-shell/
 #   Source: https://github.com/Yiki21/noctalia-shell-copr
 
-%global _cargo_nightly_flags %{nil}
 %bcond_with check
 
 Name:           matugen
@@ -20,18 +19,17 @@ Summary:        A material you color generation tool with templates
 License:        GPL-2.0-only
 
 URL:            https://github.com/InioX/matugen
-Source:         %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source1:        %{name}-%{version}-vendor.tar.gz
 
 BuildRequires:  cargo-rpm-macros >= 24
 
-%global _description %{expand:
-%{summary}.}
-
-%description %{_description}
+%description
+%{summary}
 
 %prep
-%autosetup -p1
-%cargo_prep
+%autosetup -n %{name}-%{version} -p1 -a1
+%cargo_prep -v vendor
 
 %build
 %cargo_build
@@ -41,11 +39,6 @@ BuildRequires:  cargo-rpm-macros >= 24
 
 %install
 install -Dpm755 target/release/matugen %{buildroot}%{_bindir}/matugen
-
-%if %{with check}
-%check
-%cargo_test
-%endif
 
 %files
 %license LICENSE
