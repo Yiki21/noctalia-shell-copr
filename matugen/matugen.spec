@@ -20,7 +20,6 @@ License:        GPL-2.0-only
 
 URL:            https://github.com/InioX/matugen
 Source0:        %{url}/archive/v%{version}/%{name}-%{version}.tar.gz
-Source1:        %{name}-%{version}-vendor.tar.gz
 
 BuildRequires:  cargo-rpm-macros >= 24
 
@@ -28,7 +27,8 @@ BuildRequires:  cargo-rpm-macros >= 24
 %{summary}
 
 %prep
-%autosetup -n %{name}-%{version} -p1 -a1
+%autosetup -p1
+cargo vendor
 %cargo_prep -v vendor
 
 %build
