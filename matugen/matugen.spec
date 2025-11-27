@@ -10,11 +10,7 @@
 #   COPR: https://copr.fedorainfracloud.org/coprs/zhangyi6324/noctalia-shell/
 #   Source: https://github.com/Yiki21/noctalia-shell-copr
 
-%global cargo_novendor 1
-%undefine __cargo
-%global __cargo /usr/bin/cargo
 %bcond_with check
-
 
 Name:           matugen
 Version:        3.1.0
@@ -34,7 +30,8 @@ BuildRequires:  cargo-rpm-macros >= 24
 
 %prep
 %autosetup -p1
-%cargo_prep
+cargo vendor
+%cargo_prep -v vendor
 
 %build
 %cargo_build
