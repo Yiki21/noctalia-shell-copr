@@ -30,7 +30,6 @@ BuildRequires:  cargo-rpm-macros >= 24
 
 %prep
 %autosetup -p1
-cargo vendor
 %cargo_prep -v vendor
 
 %build
