@@ -11,7 +11,10 @@
 #   Source: https://github.com/Yiki21/noctalia-shell-copr
 
 %global cargo_novendor 1
+%undefine __cargo
+%global __cargo /usr/bin/cargo
 %bcond_with check
+
 
 Name:           matugen
 Version:        3.1.0
