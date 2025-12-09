@@ -17,6 +17,7 @@ Requires:       google-roboto-fonts
 Requires:       rsms-inter-fonts
 Requires:       brightnessctl
 Requires:       gpu-screen-recorder
+Requires:	   	ddcutil
 
 # Optional dependencies
 Recommends:     cliphist
