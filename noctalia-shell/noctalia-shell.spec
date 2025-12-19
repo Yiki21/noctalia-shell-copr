@@ -1,5 +1,5 @@
 Name:           noctalia-shell
-Version:		3.7.0
+Version:		3.7.1
 
 Release:        %autorelease
 Summary:        A Quickshell-based custom shell setup
