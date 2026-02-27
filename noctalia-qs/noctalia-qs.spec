@@ -14,7 +14,7 @@
 
 Name:               quickshell-qs
 Version:            0.0.3
-Release:            1%{?dist}
+Release:            %autorelease
 Summary:            Flexible QtQuick based desktop shell toolkit
 
 License:            LGPL-3.0-only AND GPL-3.0-only
@@ -55,7 +55,7 @@ Flexible toolkit for making desktop shells with QtQuick, targeting
 Wayland and X11.
 
 %prep
-%autosetup -p1
+%autosetup
 
 %build
 %cmake  -GNinja \
