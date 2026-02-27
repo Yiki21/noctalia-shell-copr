@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
-SPEC_FILE="quickshell.spec"
-REPO="quickshell-mirror/quickshell"
+SPEC_FILE="noctalia-qs.spec"
+REPO="noctalia-dev/noctalia-qs"
 
 # Get the latest version from GitHub releases
 if [[ -n "${GITHUB_TOKEN:-}" ]]; then
@@ -37,5 +37,5 @@ echo "Updated ${SPEC_FILE} to version ${LATEST_VERSION}"
 
 # Commit changes
 git add "${SPEC_FILE}"
-git commit -m "quickshell: update to ${LATEST_VERSION}" || true
-git tag -f "quickshell-v${LATEST_VERSION}"
+git commit -m "noctalia-qs: update to ${LATEST_VERSION}" || true
+git tag -f "noctalia-qs-v${LATEST_VERSION}"
