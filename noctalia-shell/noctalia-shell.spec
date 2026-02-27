@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 Name:           noctalia-shell
 Version:		4.5.0
 
@@ -7,6 +9,8 @@ Summary:        A Quickshell-based custom shell setup
 License:        MIT
 URL:            https://github.com/noctalia-dev/noctalia-shell
 Source0:	    %{url}/releases/download/v%{version}/noctalia-v%{version}.tar.gz
+
+BuildArch:      noarch
 
 BuildRequires:  rpm-build
 BuildRequires:  git
@@ -41,7 +45,7 @@ A beautiful, minimal desktop shell for Wayland that actually gets out of your wa
 
 %install
 mkdir -p %{buildroot}%{_sysconfdir}/xdg/quickshell/noctalia-shell
-cp -ra . %{buildroot}%{_sysconfdir}/xdg/quickshell/noctalia-shell/
+cp -rp * %{buildroot}%{_sysconfdir}/xdg/quickshell/noctalia-shell/
 
 %files
 %license LICENSE
