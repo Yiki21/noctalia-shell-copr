@@ -12,7 +12,7 @@
 
 %bcond_with         asan
 
-Name:               quickshell-qs
+Name:               noctalia-qs
 Version:            0.0.3
 Release:            %autorelease
 Summary:            Flexible QtQuick based desktop shell toolkit
@@ -83,8 +83,8 @@ Wayland and X11.
 %doc changelog/v%{version}.md
 %{_bindir}/qs
 %{_bindir}/quickshell
-%{_datadir}/applications/org.quickshell.desktop
-%{_datadir}/icons/hicolor/scalable/apps/org.quickshell.svg
+%{_datadir}/applications/dev.noctalia.%{name}.desktop
+%{_datadir}/icons/hicolor/scalable/apps/dev.noctalia.%{name}.svg
 %{_libdir}/qt6/qml/Quickshell
 
 %changelog
