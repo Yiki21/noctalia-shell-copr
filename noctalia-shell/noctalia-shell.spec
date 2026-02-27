@@ -18,6 +18,8 @@ Requires:       rsms-inter-fonts
 Requires:       brightnessctl
 Requires:       gpu-screen-recorder
 Requires:	   	ddcutil
+Requires:       ImageMagick
+
 
 # Optional dependencies
 Recommends:     cliphist
