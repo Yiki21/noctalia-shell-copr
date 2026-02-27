@@ -13,8 +13,8 @@
 %bcond_with         asan
 
 Name:               noctalia-qs
-Version:            0.0.3
-Release:            %autorelease
+Version:            0.0.4
+Release:            1%{?dist}
 Summary:            Flexible QtQuick based desktop shell toolkit
 
 License:            LGPL-3.0-only AND GPL-3.0-only
