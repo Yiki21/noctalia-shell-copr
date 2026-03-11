@@ -13,7 +13,7 @@
 %bcond_with         asan
 
 Name:               noctalia-qs
-Version:            0.0.6
+Version:            0.0.7
 Release:            1%{?dist}
 Summary:            Flexible QtQuick based desktop shell toolkit
 
