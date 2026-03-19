@@ -20,12 +20,12 @@ Requires:       noctalia-qs
 Requires:       google-roboto-fonts
 Requires:       rsms-inter-fonts
 Requires:       brightnessctl
-Requires:       gpu-screen-recorder
-Requires:	   	ddcutil
+Requires:	   	  ddcutil
 Requires:       ImageMagick
 
 
 # Optional dependencies
+Recommends:     gpu-screen-recorder
 Recommends:     cliphist
 Recommends:     matugen
 Recommends:     wlsunset
