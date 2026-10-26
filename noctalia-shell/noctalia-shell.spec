@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 
 Name:           noctalia-shell
-Version:		5.3.0
+Version:		5.4.0
 
 Release:        %autorelease
 Summary:        A Quickshell-based custom shell setup
